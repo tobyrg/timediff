@@ -23,8 +23,16 @@ fn parse_time(time: &str) -> i32 {
     if time.contains("am") {
         let strip_time = time.replace("am", "");
         if strip_time.contains(":") {
+            if strip_time.contains("12") {
+                let total_minutes = parse_hour_minutes(&strip_time);
+                return total_minutes - 720;
+            }
             return parse_hour_minutes(&strip_time);
         } else {
+            if strip_time.contains("12") {
+                let total_minutes = 60 * strip_time.parse::<i32>().expect("Invalid number");
+                return total_minutes - 720;
+            }
             let total_minutes = 60 * strip_time.parse::<i32>().expect("Invalid number");
             return total_minutes;
         }
